@@ -3,12 +3,15 @@ var router = express.Router();
 var queries = require('../db/queries')
 
 /* GET home page. */
-router.get('/', function(req, res, next) {
-  res.render('index', { title: 'Express' });
-});
+router.get('/', getIndexPage);           //Abstract routers implemented- functions are below
+router.get('/posts/:id', showSinglePost);
 
-router.get('/posts/:id', function (res,req,next){
-  queries.getSinglePost(req.params.id);
+function getIndexPage(req, res, next) {
+  res.render('index', {title: 'Express'});
+}
+
+function showSinglePost(req, res, next){
+  queries.getSinglePost(req.params.id)
   .then(function(data){
     res.render('index', {
       data: data[0]
